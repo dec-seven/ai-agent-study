@@ -1,0 +1,26 @@
+{
+  "name": "ai-agent-portfolio",
+  "version": "1.0.0",
+  "description": "🧠 Agent 工程实践 | 从零手写 ReAct 循环，到构建具备反思、推演与可干预仪表盘的多智能体决策系统。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dec-seven/ai-agent-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/dec-seven/ai-agent-portfolio/issues"
+  },
+  "homepage": "https://github.com/dec-seven/ai-agent-portfolio#readme",
+  "dependencies": {
+    "@ai-sdk/openai": "^3.0.65",
+    "ai": "^6.0.191",
+    "zod": "^4.4.3"
+  }
+}
