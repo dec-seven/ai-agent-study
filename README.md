@@ -14,5 +14,6 @@
 如使用故障诊断场景，数据均为模拟生成，已脱敏处理。
 
 ## 📔 记录
-- 记录项目中每一个重要技术选型的理由(架构思考) [[DESIGN_DECISIONS]]
-- 记录学习过程中遇到的每一个坑、原因分析、解决方案。[[FAILURE_LOG]]
+
+- 记录项目中每一个重要技术选型的理由(架构思考) 👉🏻 [DESIGN_DECISIONS](https://github.com/dec-seven/ai-agent-portfolio/blob/master/DESIGN_DECISIONS.md)
+- 记录学习过程中遇到的每一个坑、原因分析、解决方案。👉🏻 [FAILURE_LOG](https://github.com/dec-seven/ai-agent-portfolio/blob/master/FAILURE_LOG.md)
