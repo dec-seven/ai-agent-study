@@ -30,6 +30,8 @@ const REACT_SYSTEM_PROMPT = `你是一个智能助手，当前日期是 ${new Da
   Action: 工具名称[参数]
   Observation: (工具执行结果，由系统填入)
 
+
+
   重复 Thought → Action → Observation 直到你能够给出最终答案。
   当你准备给出最终答案时，使用：
 
@@ -74,6 +76,7 @@ async function searchWeb(query: string): Promise<string> {
 //  ====== 解析 LLM 实现 ======
 function parseAction(text: string): {tool:string; param: string} | null {
   const actionMatch = text.match(/Action:\s*(\w+)\s*\[(.+?)\]/);
+  
   if (actionMatch) {
     return { tool: actionMatch[1], param: actionMatch[2] };
   }
@@ -81,12 +84,14 @@ function parseAction(text: string): {tool:string; param: string} | null {
 }
 
 function isFinalAnswer(text: string): string| null {
+  
   const finalMatch = text.match(/Final Answer:\s*(.+)/);
   return finalMatch ? finalMatch[1].trim() : null;
 }
 
 //  ===== 主循环 =====
 async function reactLoop(userQuery: string, maxSteps = 10) {
+  
   const messages: Array<{role:string; content:string}> = [
     { role: 'system', content: REACT_SYSTEM_PROMPT },
     { role: 'user', content: userQuery },
@@ -102,37 +107,41 @@ async function reactLoop(userQuery: string, maxSteps = 10) {
 
     const text = result.text;
     log('LLM Output:\n' + text);
-    
-    // 检查是否给出了最终答案
+
+    // ① 先解析 Action（优先于 Final Answer）
+    const action = parseAction(text);
+
+    // ② 有 Action → 强制执行工具，忽略 LLM 可能编造的后续内容
+    if (action) {
+      let observation: string;
+      if(action.tool === 'calculator'){
+        observation = caculate(action.param);
+      } else if(action.tool === 'search'){
+        observation = await searchWeb(action.param);
+      } else {
+        observation = `Unknown tool: ${action.tool}`;
+      }
+
+      log(`🔧 Tool: ${action.tool}[${action.param}]`);
+      log(`📊 Observation: ${observation}`);
+
+      // ③ 截断：只把到 Action 为止的内容塞回 messages，不污染上下文
+      const actionEndIndex = text.indexOf(']') + 1;
+      messages.push({ role: 'assistant', content: text.substring(0, actionEndIndex) });
+      messages.push({ role: 'user', content: `Observation: ${observation}` });
+
+      continue; // 进入下一轮循环
+    }
+
+    // ④ 没有 Action → 再检查 Final Answer
     const final = isFinalAnswer(text);
     if(final){
       log('\n✅ Final Answer: ' + final);
       return final;
     }
 
-    // 解析 Action
-    const action = parseAction(text);
-    if (!action) {
-      log('⚠️ No Action found, stopping');
-      return text;
-    }
-
-    // 执行工具
-    let observation: string;
-    if(action.tool === 'calculator'){
-      observation = caculate(action.param);
-    } else if(action.tool === 'search'){
-      observation = await searchWeb(action.param);
-    } else {
-      observation = `Unknown tool: ${action.tool}`;
-    }
-
-    log(`🔧 Tool: ${action.tool}[${action.param}]`);
-    log(`📊 Observation: ${observation}`);
-
-    // 将助手输出和观察结果拼回 messages
-      messages.push({ role: 'assistant', content: text });
-      messages.push({ role: 'user', content: `Observation: ${observation}` });
+    log('⚠️ No Action or Final Answer found, stopping');
+    return text;
 
 
 
@@ -144,6 +153,6 @@ async function reactLoop(userQuery: string, maxSteps = 10) {
 
 // ====== 运行 ======
   async function main() {
-    await reactLoop('特斯拉2025年的营收是多少？这个数字是蔚来的多少倍？');
+    await reactLoop('2025年全球电动车销量第一名是谁？他卖了多少辆？这个数字除以365天，日均销量多少？');
   }
   main();
