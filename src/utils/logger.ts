@@ -1,5 +1,5 @@
-import { appendFileSync } from 'fs';
-import { join } from 'path';
+import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
+import { join, dirname } from 'path';
 
 /**
  * 创建日志记录器
@@ -8,14 +8,24 @@ import { join } from 'path';
  * @returns 日志函数
  */
 export function createLogger(logFileName: string = 'app.log', logDir?: string) {
-  const logFilePath = logDir
-    ? join(logDir, logFileName)
-    : join(process.cwd(), logFileName);
+  const finalLogDir = logDir || process.cwd();
+  const logFilePath = join(finalLogDir, logFileName);
+
+  // 确保目录存在
+  if (!existsSync(finalLogDir)) {
+    mkdirSync(finalLogDir, { recursive: true });
+  }
 
   // 追加分隔线（不清空已有日志）
   const separator = '\n' + '='.repeat(60) + '\n';
   const header = `=== Log started at ${new Date().toISOString()} ===\n`;
-  appendFileSync(logFilePath, separator + header);
+
+  // 文件不存在则创建，存在则追加
+  if (!existsSync(logFilePath)) {
+    writeFileSync(logFilePath, separator + header);
+  } else {
+    appendFileSync(logFilePath, separator + header);
+  }
 
   /**
    * 写入日志
@@ -44,7 +54,13 @@ export function createLocalLogger(callerDir: string, logFileName: string = 'app.
   // 追加分隔线（不清空已有日志）
   const separator = '\n' + '='.repeat(60) + '\n';
   const header = `=== Log started at ${new Date().toISOString()} ===\n`;
-  appendFileSync(logFilePath, separator + header);
+
+  // 文件不存在则创建，存在则追加
+  if (!existsSync(logFilePath)) {
+    writeFileSync(logFilePath, separator + header);
+  } else {
+    appendFileSync(logFilePath, separator + header);
+  }
 
   /**
    * 写入日志
@@ -59,4 +75,48 @@ export function createLocalLogger(callerDir: string, logFileName: string = 'app.
       console.log(message);
     }
   };
+}
+
+/**
+ * 创建一个自动检测调用者目录的日志记录器
+ * 通过调用栈自动获取调用文件所在目录
+ * @param logFileName 日志文件名
+ * @returns 日志函数
+ */
+export function createAutoLogger(logFileName: string = 'app.log') {
+  // 获取调用栈
+  const stack = new Error().stack;
+  if (!stack) {
+    throw new Error('无法获取调用栈');
+  }
+
+  // 解析调用者文件路径
+  // 栈格式通常为：Error\n    at Object.<anonymous> (/path/to/file.ts:1:1)\n    at ...
+  // 我们需要第3行（第1行是Error，第2行是当前函数，第3行是调用者）
+  const lines = stack.split('\n');
+  // 尝试找到第一个包含文件路径的行（跳过当前函数）
+  let callerPath = '';
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    // 匹配文件路径格式 (file://...) 或 (/path/to/file.ts)
+    const fileUrlMatch = line.match(/\(file:\/\/(\/[^):]+)\)/);
+    const filePathMatch = line.match(/\((\/[^):]+)\)/);
+
+    if (fileUrlMatch) {
+      callerPath = fileUrlMatch[1];
+      break;
+    } else if (filePathMatch) {
+      callerPath = filePathMatch[1];
+      break;
+    }
+  }
+
+  if (!callerPath) {
+    throw new Error('无法解析调用者路径');
+  }
+
+  // 从文件路径中提取目录
+  const callerDir = dirname(callerPath);
+  return createLocalLogger(callerDir, logFileName);
 }

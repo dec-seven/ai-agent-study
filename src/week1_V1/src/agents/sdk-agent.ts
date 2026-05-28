@@ -8,6 +8,7 @@ import { sdkTools } from "../tools";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { createLocalLogger } from "../../../utils/logger";
+import { SDK_INSTRUCTIONS } from "../prompts/sdk";
 
 
 // ====== 日志工具 ======
@@ -17,7 +18,7 @@ const log = createLocalLogger(__dirname, 'sdk-agent.log');
 export async function sdkAgent(query: string) {
   const agent = new ToolLoopAgent({
     model: deepseek('deepseek-chat'),
-    instructions: `你是一个研究助手。遇到计算问题用计算器，需要实时信息用搜索。`,
+    instructions: SDK_INSTRUCTIONS,
     tools: sdkTools,
     stopWhen: stepCountIs(10)
   })
