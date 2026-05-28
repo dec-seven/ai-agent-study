@@ -4,8 +4,8 @@
   "description": "🧠 Agent 工程实践 | 从零手写 ReAct 循环，到构建具备反思、推演与可干预仪表盘的多智能体决策系统。",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/week1_V1/src/index.ts",
+    "test": "tsx src/week1_V1/src/test/prompt-test.ts"
   },
   "repository": {
     "type": "git",

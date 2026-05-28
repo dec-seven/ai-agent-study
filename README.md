@@ -1,19 +1,33 @@
-# ai-agent-portfolio
-🧠 Agent 工程实践 | 从零手写 ReAct 循环，到构建具备反思、推演与可干预仪表盘的多智能体决策系统。
+# AI Knowledge Assistant — Agent Portfolio
+
+> 🧠 Agent 工程实践 
+
+## 这是什么
+
+一个 **RAG 知识库问答助手**的 Agent 引擎原型（W1 阶段）。当前实现了：
 
 
-## 🎯 项目定位
+## 技术栈
 
-这不是一个简单的“调用 API 生成回答”的 Demo，而是一个模拟真实生产环境的**透明决策系统**。  
-它展示了我在 **Agent 架构设计、多智能体协作、可观测性、人机交互**等方面的工程能力。
+```
+Runtime:   Node.js + TypeScript (ESM)
+LLM:       DeepSeek（主力）/ OpenAI（备选）
+SDK:       Vercel AI SDK v6 (@ai-sdk/deepseek + ai)
+工具:      Bocha Web Search API
+验证:      Zod Schema 校验
+```
 
+## 快速开始
 
-## ⚠️ 免责声明
+## 项目结构
 
-本项目仅为技术学习与能力展示，所有分析结果**不构成任何投资或生产建议**。  
-如使用故障诊断场景，数据均为模拟生成，已脱敏处理。
+## 关键文档
 
-## 📔 记录
+| 文档 | 内容 |
+|------|------|
+| [DESIGN_DECISIONS](./DESIGN_DECISIONS.md) | 技术选型理由与架构思考 |
+| [FAILURE_LOG](./FAILURE_LOG.md) | 踩坑记录、根因分析、解决方案 |
 
-- 记录项目中每一个重要技术选型的理由(架构思考) 👉🏻 [DESIGN_DECISIONS](https://github.com/dec-seven/ai-agent-portfolio/blob/master/DESIGN_DECISIONS.md)
-- 记录学习过程中遇到的每一个坑、原因分析、解决方案。👉🏻 [FAILURE_LOG](https://github.com/dec-seven/ai-agent-portfolio/blob/master/FAILURE_LOG.md)
+## License
+
+ISC
