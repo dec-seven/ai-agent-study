@@ -19,40 +19,104 @@
  *   npx tsx src/index.ts "帮我分析一下DeepSeek公司" raw -v
  */
 
+import * as readline from 'readline';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// ====== 解析命令行参数 ======
-const args = process.argv.slice(2);
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
 
-// 提取非选项参数作为 query，选项参数单独处理
-const queryIndex = args.findIndex(a => !a.startsWith('-'));
-const query = queryIndex >= 0 ? args[queryIndex] : '1+1等于几';
-
-// 模式：raw / sdk（默认 sdk）
-const modeArg = args.find(a => a === 'raw' || a === 'sdk');
-const mode = modeArg ?? 'sdk';
-
-// Verbose 开关
-const verbose = args.includes('--verbose') || args.includes('-v');
+const options = {
+  mode: 'sdk',
+  verbose: true
+}
 
 // ====== 分发到对应 Agent ======
 async function main() {
-  console.log(`\n🚀 AI Agent 启动`);
-  console.log(`   模式: ${mode.toUpperCase()}${verbose ? ' | verbose' : ''}`);
-  console.log(`   问题: ${query}\n`);
+  ;
 
-  const startTime = Date.now();
+  console.log(`\n🚀 AI Agent 启动`)
+  console.log('╔══════════════════════════════╗');
+  console.log('║     ReAct Agent CLI v1.0     ║');
+  console.log(`║   Mode: ${options.mode} ; Verbose: ${options.verbose}  ║`);
+  console.log('╠══════════════════════════════╣');
+  console.log('║  工具: 计算器 | 网络搜索     ║');
+  console.log('║  输入 /help 查看帮助         ║');
+  console.log('║  输入 /quit 退出             ║');
+  console.log('╚══════════════════════════════╝\n');
 
-  if (mode === 'raw') {
+  const ask = () => {
+    rl.question('🧑 You: ', async (input) => {
+      if (input === '/quit') { rl.close(); return; }
+      if (input === '/help') {
+        console.log('命令： /raw 切换手写模式 | /sdk 切换SDK模式 | /verbose 显示思考过程 \n');
+        ask(); return;
+      }
+      if (input === '/raw' || input === '/sdk') {
+        options.mode  = input.slice(1)
+        ask(); return ;
+      }
+      process.stdout.write('🤖 Agent: ');
+      // 调用Agent
+      await callAgent(input);
+      ask();
+    })
+  }
+  ask();
+  // const startTime = Date.now();
+
+  // if (options.mode === 'raw') {
+  //   const { reactLoop } = await import('./agents/react-agent');
+
+  //   const answer = await reactLoop(query, {
+  //     maxSteps: 10,
+  //     verbose,
+  //   });
+
+  //   if (!verbose) {
+  //     // 非 verbose 模式也打印最终答案和基础统计
+  //     console.log(`\n✅ Answer: ${answer}`);
+
+  //     const stats = (reactLoop as any).__lastStats;
+  //     if (stats) {
+  //       console.log(`📊 步数: ${stats.totalSteps} | 工具调用: ${stats.toolCalls} | Token: ${(stats.tokenInput + stats.tokenOutput).toLocaleString()}`);
+  //     }
+  //   }
+
+  // } else {
+  //   const { sdkAgent } = await import('./agents/sdk-agent');
+
+  //   const answer = await sdkAgent(query, {
+  //     maxSteps: 10,
+  //     verbose,
+  //   });
+
+  //   if (!verbose) {
+  //     console.log(`\n✅ Answer: ${answer}`);
+
+  //     const stats = (sdkAgent as any).__lastStats;
+  //     if (stats) {
+  //       console.log(`📊 步数: ${stats.totalSteps} | 工具调用: ${stats.toolCalls} | Token: ${stats.tokenTotal.toLocaleString()}`);
+  //     }
+  //   }
+  // }
+
+  // const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+  // console.log(`⏱️  耗时: ${elapsed}s\n`);
+}
+
+const callAgent = async (query:string) => {
+  if (options.mode === 'raw') {
     const { reactLoop } = await import('./agents/react-agent');
 
     const answer = await reactLoop(query, {
       maxSteps: 10,
-      verbose,
+      verbose: options.verbose,
     });
 
-    if (!verbose) {
+    if (!options.verbose) {
       // 非 verbose 模式也打印最终答案和基础统计
       console.log(`\n✅ Answer: ${answer}`);
 
@@ -67,10 +131,10 @@ async function main() {
 
     const answer = await sdkAgent(query, {
       maxSteps: 10,
-      verbose,
+      verbose: options.verbose,
     });
 
-    if (!verbose) {
+    if (!options.verbose) {
       console.log(`\n✅ Answer: ${answer}`);
 
       const stats = (sdkAgent as any).__lastStats;
@@ -79,9 +143,6 @@ async function main() {
       }
     }
   }
-
-  const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-  console.log(`⏱️  耗时: ${elapsed}s\n`);
 }
 
 main().catch(err => {

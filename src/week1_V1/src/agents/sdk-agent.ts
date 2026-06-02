@@ -12,12 +12,12 @@ import { stepCountIs, ToolLoopAgent } from "ai";
 import { sdkTools } from "../tools";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { createLocalLogger } from "../../../utils/logger";
+// import { createLocalLogger } from "../../../utils/logger";
 import { SDK_INSTRUCTIONS } from "../prompts/sdk";
 
 // ====== 日志 ======
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const log = createLocalLogger(__dirname, 'sdk-agent.log');
+// const log = createLocalLogger(__dirname, 'sdk-agent.log');
 
 // ====== Session 统计 ======
 export interface SdkSessionStats {
@@ -70,9 +70,9 @@ export async function sdkAgent(query: string, options?: { maxSteps?: number; ver
   const result = await agent.generate({ prompt: query });
 
   // 日志
-  log('\n=== SDK Agent Result ===');
-  log(result.text);
-  log(`Steps taken: ${result.steps?.length ?? 0}`);
+  // log('\n=== SDK Agent Result ===');
+  // log(result.text);
+  // log(`Steps taken: ${result.steps?.length ?? 0}`);
 
   // 统计
   const stats: SdkSessionStats = {
@@ -117,8 +117,8 @@ export async function sdkAgent(query: string, options?: { maxSteps?: number; ver
   }
   stats.tokenTotal = result.usage?.totalTokens ?? (stats.tokenInput + stats.tokenOutput);
 
-  log(`Total tokens: ${JSON.stringify(result.usage)}`);
-  log(`Tool calls: ${stats.toolCalls}`);
+  // log(`Total tokens: ${JSON.stringify(result.usage)}`);
+  // log(`Tool calls: ${stats.toolCalls}`);
 
   if (verbose) {
     printSdkStats(stats, result.text);

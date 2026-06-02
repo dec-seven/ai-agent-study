@@ -51,3 +51,39 @@
 [2026-05-29T01:14:59.649Z] Steps taken: 2
 [2026-05-29T01:14:59.649Z] Total tokens: {"inputTokens":485,"inputTokenDetails":{"noCacheTokens":101,"cacheReadTokens":384},"outputTokens":10,"outputTokenDetails":{"textTokens":10,"reasoningTokens":0},"totalTokens":495,"raw":{"prompt_tokens":485,"completion_tokens":10,"prompt_cache_hit_tokens":384,"prompt_cache_miss_tokens":101,"total_tokens":495},"reasoningTokens":0,"cachedInputTokens":384}
 [2026-05-29T01:14:59.650Z] Tool calls: 1
+
+============================================================
+=== Log started at 2026-06-02T07:05:49.892Z ===
+[2026-06-02T07:05:51.463Z] 
+=== SDK Agent Result ===
+[2026-06-02T07:05:51.464Z] 你好！我是你的研究助手。我可以帮你完成以下任务：
+
+1. **计算问题** - 使用计算器进行数学运算
+2. **实时信息搜索** - 搜索互联网获取最新信息
+
+请告诉我你需要什么帮助？无论是计算一个表达式，还是查找某个主题的最新信息，我都可以为你处理！
+[2026-06-02T07:05:51.464Z] Steps taken: 1
+[2026-06-02T07:05:51.464Z] Total tokens: {"inputTokens":393,"inputTokenDetails":{"noCacheTokens":393,"cacheReadTokens":0},"outputTokens":66,"outputTokenDetails":{"textTokens":66,"reasoningTokens":0},"totalTokens":459,"raw":{"prompt_tokens":393,"completion_tokens":66,"prompt_cache_hit_tokens":0,"prompt_cache_miss_tokens":393,"total_tokens":459},"reasoningTokens":0,"cachedInputTokens":0}
+[2026-06-02T07:05:51.465Z] Tool calls: 0
+
+============================================================
+=== Log started at 2026-06-02T07:09:27.052Z ===
+[2026-06-02T07:09:27.972Z] 
+=== SDK Agent Result ===
+[2026-06-02T07:09:27.972Z] 你好！我是你的研究助手。有什么可以帮你的吗？如果需要计算或实时信息，我随时为你服务！
+[2026-06-02T07:09:27.973Z] Steps taken: 1
+[2026-06-02T07:09:27.973Z] Total tokens: {"inputTokens":394,"inputTokenDetails":{"noCacheTokens":10,"cacheReadTokens":384},"outputTokens":24,"outputTokenDetails":{"textTokens":24,"reasoningTokens":0},"totalTokens":418,"raw":{"prompt_tokens":394,"completion_tokens":24,"prompt_cache_hit_tokens":384,"prompt_cache_miss_tokens":10,"total_tokens":418},"reasoningTokens":0,"cachedInputTokens":384}
+[2026-06-02T07:09:27.973Z] Tool calls: 0
+[2026-06-02T07:11:54.263Z] 
+=== SDK Agent Result ===
+[2026-06-02T07:11:54.265Z] 你好！有什么我可以帮你的吗？无论是计算问题还是需要查找实时信息，我都可以为你提供帮助。请告诉我你的需求！
+[2026-06-02T07:11:54.265Z] Steps taken: 1
+[2026-06-02T07:11:54.266Z] Total tokens: {"inputTokens":394,"inputTokenDetails":{"noCacheTokens":10,"cacheReadTokens":384},"outputTokens":28,"outputTokenDetails":{"textTokens":28,"reasoningTokens":0},"totalTokens":422,"raw":{"prompt_tokens":394,"completion_tokens":28,"prompt_cache_hit_tokens":384,"prompt_cache_miss_tokens":10,"total_tokens":422},"reasoningTokens":0,"cachedInputTokens":384}
+[2026-06-02T07:11:54.266Z] Tool calls: 0
+
+============================================================
+=== Log started at 2026-06-02T07:12:10.559Z ===
+[2026-06-02T07:12:12.527Z] Total tokens: {"inputTokens":394,"inputTokenDetails":{"noCacheTokens":10,"cacheReadTokens":384},"outputTokens":109,"outputTokenDetails":{"textTokens":109,"reasoningTokens":0},"totalTokens":503,"raw":{"prompt_tokens":394,"completion_tokens":109,"prompt_cache_hit_tokens":384,"prompt_cache_miss_tokens":10,"total_tokens":503},"reasoningTokens":0,"cachedInputTokens":384}
+[2026-06-02T07:12:12.528Z] Tool calls: 0
+[2026-06-02T07:12:42.904Z] Total tokens: {"inputTokens":394,"inputTokenDetails":{"noCacheTokens":10,"cacheReadTokens":384},"outputTokens":30,"outputTokenDetails":{"textTokens":30,"reasoningTokens":0},"totalTokens":424,"raw":{"prompt_tokens":394,"completion_tokens":30,"prompt_cache_hit_tokens":384,"prompt_cache_miss_tokens":10,"total_tokens":424},"reasoningTokens":0,"cachedInputTokens":384}
+[2026-06-02T07:12:42.906Z] Tool calls: 0
